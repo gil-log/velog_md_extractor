@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Velog .md Extractor</title>
+    <script type="text/javascript" src="../lib/Common.js"></script>
     <style type="text/css">
       #wrapper {
         width: 100%;
@@ -91,12 +92,27 @@
 <script>
   function convert() {
     logInputValue();
+    requestVelogPosts();
   }
   function logInputValue() {
     const user_name = document.getElementById("user_name");
     const token_area_html = document.getElementById("token_area");
     console.log(user_name.value);
     console.log(token_area_html.value);
+  }
+  function requestVelogPosts() {
+    const user_name = document.getElementById("user_name");
+    const token_area_html = document.getElementById("token_area");
+    const url = "../api/GetVelogPosts.php";
+    const method = "POST";
+    const requestData = {
+      userName : user_name.value,
+      cookie : token_area_html.value
+    };
+    const consoleLog = function (data) {
+      console.log(data);
+    }
+    callAjax(url, method, requestData, consoleLog);
   }
 </script>
 </html>
