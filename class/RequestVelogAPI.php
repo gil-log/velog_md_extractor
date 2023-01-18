@@ -1,56 +1,31 @@
 <?
-require_once('RequestCurl.php');
 
 class RequestVelogAPI {
-    public $response;
-    public $options;
-    public $userName;
-    private $requestAPIData;
 
-    /**
-     * @throws Exception
-     */
-    function __constrcut($userName, $cookie) {
-        if($userName == null || $userName == '') {
-            throw new Exception("UserName이 존재하지 않습니다.", 0);
+    function curlPost($postTitle) {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://v2cdn.velog.io/graphql');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, '{"operationName":"ReadPost","query":"query ReadPost($username: String, $url_slug: String) { post(username: $username, url_slug: $url_slug) { id title released_at updated_at tags body short_description is_markdown is_private is_temp thumbnail comments_count url_slug likes liked user { id username profile { id display_name thumbnail short_bio profile_links __typename } velog_config { title __typename } __typename } comments { id user { id username profile { id thumbnail __typename } __typename } text replies_count level created_at level deleted __typename } series { id name url_slug series_posts { id post { id title url_slug user { id username __typename } __typename } __typename } __typename } linked_posts { previous { id title url_slug user { id username __typename } __typename } next { id title url_slug user { id username __typename } __typename } __typename } __typename } }","variables":{"username":"gillog","url_slug":"'.$postTitle.'"}}');
+
+        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
         }
-        if($cookie == null || $cookie == '') {
-            throw new Exception("Cookie가 존재하지 않습니다.", 1);
-        }
-        $this->options = array(
-            CURLOPT_HTTPHEADER => array(
-                'Cache-Control' => 'no-cache',
-                'Content-Type' => 'application/json',
-                'Accept' => '*/*',
-                'cookie' => $cookie
-            ),
-            CURLOPT_POST => 0,
-            CURLOPT_TIMEOUT => 60,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLINFO_HEADER_OUT => false,
-            CURLOPT_HEADER => false,
-            CURLOPT_CONNECTTIMEOUT => 60,
-            CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => 'gzip,deflate',
-            CURLOPT_POSTFIELDS => json_encode(array(
-                "operationName"=>"PostView",
-                "variables"=>array(
-                    "id"=>"d9f3c906-23c8-4918-b322-d284eef075d4",
-                    "query"=>"mutation PostView($id: ID!) {postView(id: $id)}"
-                )
-            ), true)
-        );
-
-        $this->userName = $userName;
-        $this->requestAPIData = new RequestAPIData($this->options);
-    }
-
-    function testRequest() {
-        $response = $this->requestAPIData->requestAPI('https://v2cdn.velog.io/graphql');
-
-        echo $response;
+        curl_close($ch);
+        return $result;
     }
 }
