@@ -76,10 +76,12 @@
         </div>
     </div>
     <span>Velog 사용자명 : </span><input id="user_name" type="text" value="gillog"/>
-    <input id="converter" type="button" value="MD 추출" onclick="convert()"/>
+    <input id="converter" type="button" value="Title 가져오기" onclick="requestVelogPostTitle()"/>
     <div class="content">
-        <div class="left">
-            <textarea class="text_area" id="token_area"></textarea>
+        <div class="left" style="overflow:scroll;">
+          <ul id="postTitleArea">
+
+          </ul>
         </div>
         <div class="right">
             <textarea class="text_area" id="result_area" readonly></textarea>
@@ -90,24 +92,34 @@
     </div>
 </body>
 <script>
+  function requestVelogPostTitle() {
+
+    const user_name = document.getElementById("user_name");
+    const url = "../api/GetVelogPostTitle.php";
+    const method = "POST";
+    const requestData = {
+      userName : user_name.value
+    };
+    const appendTitleArea = function (data) {
+      var li = document.createElement('li');
+      var content = document.createTextNode(data);
+      li.appendChild(content);
+      var postTitleArea = document.getElementById("postTitleArea");
+      postTitleArea.appendChild(li);
+    }
+    callAjax(url, method, requestData, appendTitleArea);
+  }
+
   function convert() {
-    logInputValue();
     requestVelogPosts();
   }
-  function logInputValue() {
-    const user_name = document.getElementById("user_name");
-    const token_area_html = document.getElementById("token_area");
-    console.log(user_name.value);
-    console.log(token_area_html.value);
-  }
+
   function requestVelogPosts() {
     const user_name = document.getElementById("user_name");
-    const token_area_html = document.getElementById("token_area");
     const url = "../api/GetVelogPosts.php";
     const method = "POST";
     const requestData = {
-      userName : user_name.value,
-      cookie : token_area_html.value
+      userName : user_name.value
     };
     const consoleLog = function (data) {
       console.log(data);
