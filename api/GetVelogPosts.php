@@ -11,4 +11,5 @@ try {
     exit();
 }
 
-echo $RequestVelogAPI->curlPost("CMD-명령어로-사용중인-port-종료하기");
+echo $RequestVelogAPI->curlPost("gil.log210909");
+//echo $RequestVelogAPI->curlTitle("gillog", 'd004d95c-415d-4c9f-b60d-cdbfde20a03f');
