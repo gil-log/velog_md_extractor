@@ -41,11 +41,10 @@ while($hasNext) {
     $randomDelaySecond = rand($minDelaySecond, $maxDelaySecond);
     sleep($randomDelaySecond);
 
-//    $testCallCount -= 1;
-//    if($testCallCount == 0) {
-//        $hasNext = false;
-//    }
+    $testCallCount -= 1;
+    if($testCallCount == 0) {
+        $hasNext = false;
+    }
 }
-
 
 echo print_r($result);

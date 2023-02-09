@@ -77,6 +77,7 @@
     </div>
     <span>Velog 사용자명 : </span><input id="user_name" type="text" value="gillog"/>
     <input id="converter" type="button" value="Title 가져오기" onclick="requestVelogPostTitle()"/>
+    <input id="converter_file" type="button" value="Post MD 가져오기" onclick="requestVelogPosts()"/>
     <div class="content">
         <div class="left" style="overflow:scroll;">
           <ul id="postTitleArea">
@@ -108,10 +109,6 @@
       postTitleArea.appendChild(li);
     }
     callAjax(url, method, requestData, appendTitleArea);
-  }
-
-  function convert() {
-    requestVelogPosts();
   }
 
   function requestVelogPosts() {
