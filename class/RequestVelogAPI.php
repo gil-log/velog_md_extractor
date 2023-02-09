@@ -31,7 +31,7 @@ class RequestVelogAPI {
         return $result;
     }
 
-    function curlPost($postTitle) {
+    function curlPostByTitle($postTitle) {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://v2cdn.velog.io/graphql');
