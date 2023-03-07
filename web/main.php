@@ -73,6 +73,8 @@
             <h5> Velog 사용자명 입력</h5>
             <h5> 왼쪽 파란색 영역에 Velog Cookie jwt 토큰 입력</h5>
             <h5> MD 추출 버튼 입력</h5>
+            <h5> /posts에 post파일이 md로 생성됨</h5>
+            <h5> /category에 post의 category파일이 md로 생성됨</h5>
         </div>
     </div>
     <span>Velog 사용자명 : </span><input id="user_name" type="text" value="gillog"/>
