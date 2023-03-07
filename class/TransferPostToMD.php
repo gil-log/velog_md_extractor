@@ -14,7 +14,7 @@ class TransferPostToMD {
 
         $tagTail = '';
         foreach ($tags as $tag) {
-            $tagTail .= " \n  - ".$tag;
+            $tagTail .= " \n  - '".$tag."'";
         }
         $tagBody = "\ntags:" .$tagTail;
 
