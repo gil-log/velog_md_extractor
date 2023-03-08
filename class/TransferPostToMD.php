@@ -19,6 +19,7 @@ class TransferPostToMD {
         $tagBody = "\ntags:" .$tagTail;
 
         $seriesURL = '';
+        $seriesMetaData = '';
         if($series != "") {
             $seriesURL = preg_replace('/[\.\s]/', '', strtolower($series));
             $seriesMetaData = "---\ntitle: '".$series."'\nlayout: category\npermalink: /categories/".$seriesURL. "\nauthor_profile: true\nsidebar_main: true\n---\n{% assign posts = site.categories.".$seriesURL." %}\n{% for post in posts %} {% include archive-single.html type=page.entries_layout %} {% endfor %}";
@@ -26,9 +27,11 @@ class TransferPostToMD {
             $seriesFile = fopen("../categories/".'category-'.strtolower($seriesURL).".md", "w") or die("Unable to Write file!");
             fwrite($seriesFile, $seriesMetaData);
             fclose($seriesFile);
+
+            $seriesMetaData = "\ncategories: \n  - " . $seriesURL;
         }
 
-        $postMetaData = "---\ntitle: \"" .$title . "\"\nlast_modified_at: " . $lastModifiedAt . "\ncategories: \n  - " . $seriesURL . $tagBody . "\ntoc: true\ntoc_label: '목차'\ntoc_icon: 'sort'\ntoc_sticky: true\n---\n";
+        $postMetaData = "---\ntitle: \"" .$title . "\"\nlast_modified_at: " . $lastModifiedAt . $seriesMetaData . $tagBody . "\ntoc: true\ntoc_label: '목차'\ntoc_icon: 'sort'\ntoc_sticky: true\n---\n";
 
 
         $postBody = $postMetaData . $body;
