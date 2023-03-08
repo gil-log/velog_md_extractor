@@ -20,10 +20,10 @@ class TransferPostToMD {
 
         $seriesURL = '';
         if($series != "") {
-            $seriesURL = preg_replace('/\./', '', strtolower($series));
+            $seriesURL = preg_replace('/[\.\s]/', '', strtolower($series));
             $seriesMetaData = "---\ntitle: '".$series."'\nlayout: category\npermalink: /categories/".$seriesURL. "\nauthor_profile: true\nsidebar_main: true\n---\n{% assign posts = site.categories.".$seriesURL." %}\n{% for post in posts %} {% include archive-single.html type=page.entries_layout %} {% endfor %}";
 
-            $seriesFile = fopen("../categories/".'category-'.strtolower($series).".md", "w") or die("Unable to Write file!");
+            $seriesFile = fopen("../categories/".'category-'.strtolower($seriesURL).".md", "w") or die("Unable to Write file!");
             fwrite($seriesFile, $seriesMetaData);
             fclose($seriesFile);
         }
