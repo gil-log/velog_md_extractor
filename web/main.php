@@ -91,10 +91,10 @@
     const requestData = {
       userName : user_name.value
     };
-    const consoleLog = function (data) {
-      console.log(data);
+    const alertResponse = function (response) {
+      alert(response);
     }
-    callAjax(url, method, requestData, consoleLog);
+    callAjax(url, method, requestData, alertResponse);
   }
 </script>
 </html>
